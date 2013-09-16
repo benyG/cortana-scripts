@@ -1,4 +1,4 @@
-# Beef & Armitage integration - by benyG
+﻿# Beef & Armitage integration - by benyG
 # Tested on Bactrack5r3
 # video demo: http://www.youtube.com/watch?v=YhKhkYzq2s8&feature=share&list=UU7_xeQ_4d8jAMtxdJgikjlA
 
@@ -101,11 +101,12 @@ popup attacks {
 }
 
 #when zombie is offline icon must turn red.
-#filter host_image {
-#		$address = $2['address'];
-#		push($1, script_resource("zombie.png")); 
-#		return @_;
-#		}
+
+filter host_image {
+		$address = $2['address'];
+		push($1, script_resource("zombie.png")); 
+		return @_;
+		}
 
 on heartbeat_15s {
 	if ( $import == 1 ) { 
