@@ -22,6 +22,13 @@ on console_load {show_message("$3");
 $first = 0 ;        # first beef's zombie id
 @beef_hosts = @(%());  # array of beef's zombies
 
+#when zombie is offline icon must turn red.
+filter host_image {
+		$address = $2['address'];
+		push($1, script_resource("zombie.png")); 
+		return @_;
+		}
+
 popup attacks {
 	menu "BeEF Strike"{
 
@@ -100,13 +107,6 @@ popup attacks {
 	}
 }
 
-#when zombie is offline icon must turn red.
-
-filter host_image {
-		$address = $2['address'];
-		push($1, script_resource("zombie.png")); 
-		return @_;
-		}
 
 on heartbeat_15s {
 	if ( $import == 1 ) { 
